@@ -6,7 +6,13 @@
 </head>
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
+
+
 <script>
+
+
+
+
 
   var canvas = document.querySelector('#draw');
   var ctx = canvas.getContext('2d');
@@ -26,7 +32,7 @@
 
   function draw (e) {
       if(!isDrawing) return;
-      console.log(e);
+
       ctx.strokeStyle = 'hsl(' + hue + ', 100%, 50%)';
       ctx.beginPath();
       ctx.moveTo(lastX, lastY);
@@ -38,7 +44,7 @@
       if (hue >= 360) {
           hue = 0;
       }
-      console.log(hue);
+
       if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
           direction = !direction;
       }
@@ -61,8 +67,18 @@
   canvas.addEventListener('mousemove', draw);
   canvas.addEventListener('mouseup', function (){return isDrawing = false});
   canvas.addEventListener('mouseout', function (){return isDrawing = false});
+// for mobile
+  canvas.addEventListener('touchstart', function (e){
+    /*return [isDrawing, lastY, lastX] = [true, e.offsetY, e.offsetY];*/
 
+      return [isDrawing = true,
+          lastY = e.offsetY,
+          lastX = e.offsetX];
 
+  });
+  canvas.addEventListener('touchmove', draw);
+  canvas.addEventListener('touchend', function (){return isDrawing = false});
+  canvas.addEventListener('touchcancel', function (){return isDrawing = false});
 
 
 </script>
